@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>free and modded apps for android and windows, softwares and utilities at contents-box-official.</title>
-    
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lunr.js/2.3.9/lunr.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
     <!-- Styling Libraries -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -89,8 +91,42 @@
         updateDateTime();
         setGreeting();
     </script>
+<p>select your desired language to read this page in your favourite language.</p>
+    <div id="google_translate_element"></div>
+    <div class="max-w-xl mx-auto">
+        <input id="searchBar" type="text" placeholder="Search..." class="w-full p-2 border rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+        <ul id="results" class="mt-4 bg-white shadow-md rounded-lg p-4"></ul>
+    </div>
     </header>
-
+    <script>
+        let index = lunr(function () {
+            this.ref('id');
+            this.field('title');
+            this.field('body');
+            
+            document.querySelectorAll('#content h2').forEach((el, i) => {
+                this.add({
+                    id: i,
+                    title: el.innerText,
+                    body: el.nextElementSibling ? el.nextElementSibling.innerText : ''
+                });
+            });
+        });
+        
+        document.getElementById('searchBar').addEventListener('input', function () {
+            let query = this.value;
+            let results = index.search(query);
+            let resultsContainer = document.getElementById('results');
+            resultsContainer.innerHTML = '';
+            
+            results.forEach(r => {
+                let item = document.createElement('li');
+                item.className = "p-2 border-b";
+                item.textContent = document.querySelectorAll('#content h2')[r.ref].innerText;
+                resultsContainer.appendChild(item);
+            });
+        });
+    </script>
     <!-- Introduction -->
     <section class="section">
         <h2>Introduction</h2>
@@ -160,6 +196,47 @@
             </form>
         </div>
     </section>
+<h3>subscribe our news letter to get the latest updates.</h3>    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+
+<!-- Newsletter Subscription Section -->
+<div class="subscription-section text-center">
+    <h3>Subscribe to Our Newsletter</h3>
+    <p>Stay updated with our latest news and offers.</p>
+    
+    <form id="subscriptionForm">
+        <div class="mb-3">
+            <input type="email" id="email" class="form-control" placeholder="Enter your email" required>
+        </div>
+        <button type="submit" class="btn btn-primary btn-subscribe">Subscribe</button>
+        <div id="message" class="message"></div>
+    </form>
+</div>
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    // Subscription Form Handling
+    $(document).ready(function() {
+        $("#subscriptionForm").on("submit", function(event) {
+            event.preventDefault();
+            var email = $("#email").val().trim();
+            
+            if (email === "") {
+                $("#message").html('<div class="alert alert-danger">Please enter your email.</div>');
+                return;
+            }
+            
+            // Simulate AJAX request (Replace with actual backend call)
+            setTimeout(function() {
+                $("#message").html('<div class="alert alert-success">Subscribed successfully!</div>');
+                $("#email").val("");
+            }, 1000);
+        });
+    });
+</script>
 
     <!-- Footer -->
     <footer class="footer">
@@ -174,7 +251,6 @@
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 
     <!-- Google Translate -->
-    <div id="google_translate_element"></div>
     <script type="text/javascript">
         function googleTranslateElementInit() {
             new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
