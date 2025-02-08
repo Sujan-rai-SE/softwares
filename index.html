@@ -93,11 +93,8 @@
     </script>
 <p>select your desired language to read this page in your favourite language.</p>
     <div id="google_translate_element"></div>
-    <div class="max-w-xl mx-auto">
         <input id="searchBar" type="text" placeholder="Search..." class="w-full p-2 border rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500">
         <ul id="results" class="mt-4 bg-white shadow-md rounded-lg p-4"></ul>
-    </div>
-    </header>
     <script>
         let index = lunr(function () {
             this.ref('id');
@@ -127,6 +124,7 @@
             });
         });
     </script>
+</header>
     <!-- Introduction -->
     <section class="section">
         <h2>Introduction</h2>
